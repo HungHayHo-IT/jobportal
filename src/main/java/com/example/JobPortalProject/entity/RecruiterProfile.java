@@ -43,6 +43,10 @@ public class RecruiterProfile {
         this.profilePhoto = profilePhoto;
     }
 
+    public RecruiterProfile() {
+
+    }
+
     public int getUserAccountId() {
         return userAccountId;
     }
