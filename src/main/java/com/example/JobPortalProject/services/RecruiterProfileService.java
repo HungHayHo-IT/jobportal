@@ -21,4 +21,7 @@ public class RecruiterProfileService {
     }
 
 
+    public RecruiterProfile addNew(RecruiterProfile recruiterProfile) {
+        return recruiterProfileRepository.save(recruiterProfile);
+    }
 }
