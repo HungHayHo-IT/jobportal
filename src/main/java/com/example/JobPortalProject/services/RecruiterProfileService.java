@@ -19,4 +19,6 @@ public class RecruiterProfileService {
     public Optional<RecruiterProfile> getOne(Integer id ){
         return recruiterProfileRepository.findById(id);
     }
+
+
 }

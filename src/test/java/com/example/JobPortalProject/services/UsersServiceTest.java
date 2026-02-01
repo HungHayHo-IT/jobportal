@@ -38,7 +38,7 @@ public class UsersServiceTest {
     @BeforeEach
     void setUp(){
         testType = new UsersType();
-        testType.setUserTypeId(1);
+        testType.setUserTypeId(2);
         testType.setUserTypeName("Job Seeker");
 
         testUser = new Users();
