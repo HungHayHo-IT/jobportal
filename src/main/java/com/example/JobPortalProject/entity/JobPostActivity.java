@@ -1,6 +1,7 @@
 package com.example.JobPortalProject.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -21,7 +22,7 @@ public class JobPostActivity {
     @JoinColumn(name = "jobLocationId", referencedColumnName = "Id")
     private JobLocation jobLocationId;
 
-    @ManyToOne()
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "jobCompanyId",referencedColumnName = "id")
     private JobCompany jobCompanyId;
 
@@ -30,6 +31,9 @@ public class JobPostActivity {
 
     @Transient
     private Boolean isSaved;
+
+    @Length(max = 10000)
+    private String descriptionOfJob;
 
     private String jobType;
     private String salary;
@@ -41,7 +45,7 @@ public class JobPostActivity {
     public JobPostActivity() {
     }
 
-    public JobPostActivity(Integer jobPostId, Users postedById, JobLocation jobLocationId, JobCompany jobCompanyId, Boolean isActive, Boolean isSaved, String jobType, String salary, String remote, Date postedDate, String jobTitle) {
+    public JobPostActivity(Integer jobPostId, Users postedById, JobLocation jobLocationId, JobCompany jobCompanyId, Boolean isActive, Boolean isSaved, String jobType, String salary, String remote, Date postedDate, String jobTitle,String descriptionOfJob) {
         this.jobPostId = jobPostId;
         this.postedById = postedById;
         this.jobLocationId = jobLocationId;
@@ -53,6 +57,7 @@ public class JobPostActivity {
         this.remote = remote;
         this.postedDate = postedDate;
         this.jobTitle = jobTitle;
+        this.descriptionOfJob = descriptionOfJob;
     }
 
     public Integer getJobPostId() {
@@ -141,6 +146,14 @@ public class JobPostActivity {
 
     public void setJobTitle(String jobTitle) {
         this.jobTitle = jobTitle;
+    }
+
+    public String getDescriptionOfJob() {
+        return descriptionOfJob;
+    }
+
+    public void setDescriptionOfJob(String descriptionOfJob) {
+        this.descriptionOfJob = descriptionOfJob;
     }
 
     @Override
