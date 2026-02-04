@@ -1,6 +1,8 @@
 package com.example.JobPortalProject.controller;
 
 import com.example.JobPortalProject.entity.JobPostActivity;
+import com.example.JobPortalProject.entity.RecruiterJobsDto;
+import com.example.JobPortalProject.entity.RecruiterProfile;
 import com.example.JobPortalProject.entity.Users;
 import com.example.JobPortalProject.services.JobPostActivityService;
 import com.example.JobPortalProject.services.UsersService;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.Date;
+import java.util.List;
 
 @Controller
 public class JobPostActivityController {
@@ -37,7 +40,10 @@ public class JobPostActivityController {
         if(!(authentication instanceof AnonymousAuthenticationToken)){// kiem tra xem co phai nguoi dung chua dang nhap khong
             String currentUsername = authentication.getName();
             model.addAttribute("username",currentUsername);
-
+            if(authentication.getAuthorities().contains(new  SimpleGrantedAuthority("Recruiter"))){
+                List<RecruiterJobsDto> recruiterJobs = jobPostActivityService.getRecruiterJobs(((RecruiterProfile)currentUserProfile).getUserAccountId());
+                model.addAttribute("jobPost",recruiterJobs);
+            }
         }
         model.addAttribute("user",currentUserProfile);
         return "dashboard";
