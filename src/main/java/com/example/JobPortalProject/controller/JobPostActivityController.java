@@ -4,6 +4,7 @@ import com.example.JobPortalProject.services.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +29,7 @@ public class JobPostActivityController {
         if(!(authentication instanceof AnonymousAuthenticationToken)){// kiem tra xem co phai nguoi dung chua dang nhap khong
             String currentUsername = authentication.getName();
             model.addAttribute("username",currentUsername);
+
         }
         model.addAttribute("user",currentUserProfile);
         return "dashboard";
