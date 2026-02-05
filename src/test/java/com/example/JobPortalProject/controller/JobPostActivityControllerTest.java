@@ -64,4 +64,25 @@ class JobPostActivityControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/dashboard/"));
     }
+
+    @Test
+    @DisplayName("Test editJob: Hiển thị form chỉnh sửa việc làm (GET /dashboard/edit/{id})")
+    @WithMockUser(username = "recruiter@test.com", authorities = "Recruiter")
+    void testEditJob() throws Exception {
+        // GIVEN
+        int jobId = 1;
+        JobPostActivity mockJob = new JobPostActivity();
+        mockJob.setJobPostId(jobId);
+        mockJob.setJobTitle("Old Title");
+
+        when(jobPostActivityService.getOne(jobId)).thenReturn(mockJob);
+        when(usersService.getCurrentUserProfile()).thenReturn(new Users());
+
+        // WHEN & THEN
+        mockMvc.perform(post("/dashboard/edit/" + jobId))
+                .andExpect(status().isOk())
+                .andExpect(view().name("add-jobs")) // Tên view trả về
+                .andExpect(model().attributeExists("jobPostActivity")) // Kiểm tra model có chứa object cần sửa
+                .andExpect(model().attribute("jobPostActivity", mockJob));
+    }
 }

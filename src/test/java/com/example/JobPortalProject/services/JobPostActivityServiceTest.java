@@ -1,6 +1,8 @@
 package com.example.JobPortalProject.services;
 
+import com.example.JobPortalProject.entity.IRecruiterJobs;
 import com.example.JobPortalProject.entity.JobPostActivity;
+import com.example.JobPortalProject.entity.RecruiterJobsDto;
 import com.example.JobPortalProject.entity.Users;
 import com.example.JobPortalProject.repository.JobPostActivityRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -59,5 +61,36 @@ class JobPostActivityServiceTest {
         verify(jobPostActivityRepository, times(1)).save(any(JobPostActivity.class));
     }
 
+    @Test
+    @DisplayName("Test lay ra danh sach job mapping tu interface sang dto")
+    void testGetRecruiterJobs(){
 
+
+        IRecruiterJobs mockJobs = mock(IRecruiterJobs.class);
+
+        when(mockJobs.getJob_post_id()).thenReturn(100);
+        when(mockJobs.getJob_title()).thenReturn("Back end");
+        when(mockJobs.getLocationId()).thenReturn(1);
+        when(mockJobs.getCity()).thenReturn("Hue");
+        when(mockJobs.getState()).thenReturn("Phu Xuan");
+        when(mockJobs.getCountry()).thenReturn("VietNam");
+        when(mockJobs.getCompanyId()).thenReturn(1);
+        when(mockJobs.getName()).thenReturn("FPT Software");
+        when(mockJobs.getTotalCandidates()).thenReturn(5L);
+
+
+        when(jobPostActivityRepository.getRecruiterJobs(1)).thenReturn(List.of(mockJobs));
+
+        List<RecruiterJobsDto> recruiterJobsDtoList = jobPostActivityService.getRecruiterJobs(1);
+
+        assertThat(recruiterJobsDtoList).isNotEmpty();
+        RecruiterJobsDto dto = recruiterJobsDtoList.get(0);
+
+        assertThat(dto.getJobPostId()).isEqualTo(100L);
+        assertThat(dto.getJobTitle()).isEqualTo("Back end");
+        assertThat(dto.getJobLocationId().getCity()).isEqualTo("Hue");
+        assertThat(dto.getJobCompanyId().getName()).isEqualTo("FPT Software");
+        assertThat(dto.getTotalCandidates()).isEqualTo(5);
+
+    }
 }
